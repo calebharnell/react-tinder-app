@@ -2,21 +2,15 @@ import React, {Component} from 'react';
 import './App.css';
 import Profile from './components/Profile';
 
-const EditForms = ({firstName, lastName, imageURL, onChangeFirstName, onChangeLastName, onChangeImageURL}) => (
-  <div>
-    <label>
-      First name:
-      <input type="text" value={ firstName } onChange={ onChangeFirstName } />
-    </label>
-    <label>
-      Last name:
-      <input type="text" value={ lastName } onChange={ onChangeLastName } />
-    </label>
-    <label>
-      Image URL:
-      <input type="text" value={ imageURL } onChange={ onChangeImageURL } />
-    </label>
-  </div>
+const InputForm = ({firstName, lastName, imageURL, onChange}) => (
+  <form>
+    First name:
+    <input type="text" name="firstName" value={firstName} onChange={onChange} />
+    Last name:
+    <input type="text" name="lastName" value={lastName} onChange={onChange} />
+    Image URL:
+    <input type="text" name="ImageURL" value={imageURL} onChange={onChange} />
+  </form>
 )
 
 class App extends Component {
@@ -29,31 +23,10 @@ class App extends Component {
     editable: false
   }
 
-  // When first name changes
-  onChangeFirstName = (event) => {
-    console.log('First name changed')
+  onChange = (event) => {
     const input = event.target;
-    const newFirstName = input.value;
     this.setState(prevState => ({
-      firstName: newFirstName
-    }))
-  }
-
-  onChangeLastName = (event) => {
-    console.log('Last name changed')
-    const input = event.target;
-    const newLastName = input.value;
-    this.setState(prevState => ({
-      lastName: newLastName
-    }))
-  }
-
-  onChangeImageURL = (event) => {
-    console.log('Image URL changed')
-    const input = event.target;
-    const newImageURL = input.value;
-    this.setState(prevState => ({
-      imageURL: newImageURL
+      [input.name]: input.value
     }))
   }
 
@@ -94,13 +67,11 @@ class App extends Component {
         <button onClick={ this.randomClicked }>Random</button>
         <br /><br />
         {(this.state.editable) ?
-          <EditForms
+          <InputForm
             firstName={firstName}
             lastName={lastName}
             imageURL={imageURL}
-            onChangeFirstName={this.onChangeFirstName}
-            onChangeLastName={this.onChangeLastName}
-            onChangeImageURL={this.onChangeImageURL} /> : ""
+            onChange={this.onChange} /> : ""
         }
       </div>
     );
