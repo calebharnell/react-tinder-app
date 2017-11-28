@@ -2,13 +2,33 @@ import React, { Component } from 'react';
 import './App.css';
 import Profile from './components/Profile';
 
+const EditForms = ({firstName, lastName, imageURL, onChangeFirstName, onChangeLastName, onChangeImageURL}) => (
+  <div>
+    <label>
+      First name:
+      <input type="text" value={ firstName } onChange={ onChangeFirstName } />
+    </label>
+    <label>
+      Last name:
+      <input type="text" value={ lastName } onChange={ onChangeLastName } />
+    </label>
+    <label>
+      Image URL:
+      <input type="text" value={ imageURL } onChange={ onChangeImageURL } />
+    </label>
+  </div>
+)
+
+
+
 class App extends Component {
 
   // Set the initial state
   state = {
     firstName: 'Big',
     lastName: 'Steve',
-    imageURL: 'https://randomuser.me/api/portraits/men/83.jpg'
+    imageURL: 'https://randomuser.me/api/portraits/men/83.jpg',
+    editable: false
   }
 
   // When first name changes
@@ -39,6 +59,13 @@ class App extends Component {
     }))
   }
 
+  editClicked = () => {
+    // The user clicked the button!
+    this.setState(prevState => ({
+      editable: !prevState.editable
+    }))
+  }
+
   render() {
 
     // grab values from state
@@ -50,20 +77,17 @@ class App extends Component {
           firstName={ firstName }
           lastName={ lastName }
           imageURL={ imageURL } />
-
-        <label>
-          First name:
-          <input type="text" value={ firstName } onChange={ this.onChangeFirstName } />
-        </label>
-        <label>
-          Last name:
-          <input type="text" value={ lastName } onChange={ this.onChangeLastName } />
-        </label>
-        <label>
-          Image URL:
-          <input type="text" value={ imageURL } onChange={ this.onChangeImageURL } />
-        </label>
-
+        <button onClick={ this.editClicked }>Edit</button>
+        <br /><br />
+        {(this.state.editable) ?
+          <EditForms
+            firstName={firstName}
+            lastName={lastName}
+            imageURL={imageURL}
+            onChangeFirstName={this.onChangeFirstName}
+            onChangeLastName={this.onChangeLastName}
+            onChangeImageURL={this.onChangeImageURL} /> : ""
+        }
       </div>
     );
   }
