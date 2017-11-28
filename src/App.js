@@ -21,6 +21,24 @@ class App extends Component {
     }))
   }
 
+  onChangeLastName = (event) => {
+    console.log('Last name changed')
+    const input = event.target;
+    const newLastName = input.value;
+    this.setState(prevState => ({
+      lastName: newLastName
+    }))
+  }
+
+  onChangeImageURL = (event) => {
+    console.log('Image URL changed')
+    const input = event.target;
+    const newImageURL = input.value;
+    this.setState(prevState => ({
+      imageURL: newImageURL
+    }))
+  }
+
   render() {
 
     // grab values from state
@@ -36,6 +54,14 @@ class App extends Component {
         <label>
           First name:
           <input type="text" value={ firstName } onChange={ this.onChangeFirstName } />
+        </label>
+        <label>
+          Last name:
+          <input type="text" value={ lastName } onChange={ this.onChangeLastName } />
+        </label>
+        <label>
+          Image URL:
+          <input type="text" value={ imageURL } onChange={ this.onChangeImageURL } />
         </label>
 
       </div>
