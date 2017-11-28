@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import Profile from './components/Profile';
 
@@ -18,8 +18,6 @@ const EditForms = ({firstName, lastName, imageURL, onChangeFirstName, onChangeLa
     </label>
   </div>
 )
-
-
 
 class App extends Component {
 
@@ -66,6 +64,21 @@ class App extends Component {
     }))
   }
 
+  randomClicked = () => {
+    fetch('https://randomuser.me/api/').then((results) => {
+      return results.json()
+    }).then((data) => {
+      const randomFirstName = data.results[0].name.first;
+      const randomLastName = data.results[0].name.last;
+      const randomPicture = data.results[0].picture.large;
+      this.setState({
+        firstName: randomFirstName,
+        lastName: randomLastName,
+        imageURL: randomPicture
+      })
+    })
+  }
+
   render() {
 
     // grab values from state
@@ -78,6 +91,7 @@ class App extends Component {
           lastName={ lastName }
           imageURL={ imageURL } />
         <button onClick={ this.editClicked }>Edit</button>
+        <button onClick={ this.randomClicked }>Random</button>
         <br /><br />
         {(this.state.editable) ?
           <EditForms
